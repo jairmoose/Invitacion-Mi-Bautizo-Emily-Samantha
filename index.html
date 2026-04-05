@@ -3,34 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación Bautizo</title>
+    <title>Invitación Bautizo - Emily Samantha</title>
     <style>
         body {
             margin: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column; /* Para acomodar el texto arriba */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background-color: #fdfaf7;
             overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
         }
 
-        /* TEXTO DE INSTRUCCIÓN */
+        /* INSTRUCCIÓN PARA EL INVITADO */
         .instruccion {
-            color: #d4a373;
-            font-size: 1.2rem;
+            color: #b5835a;
+            font-size: 1.1rem;
+            font-weight: bold;
             margin-bottom: 20px;
-            font-style: italic;
-            animation: latido 1.5s infinite;
-            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: latido 1.3s infinite;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+            z-index: 100;
         }
 
         @keyframes latido {
-            0% { opacity: 0.5; transform: scale(1); }
+            0% { opacity: 0.5; transform: scale(0.95); }
             50% { opacity: 1; transform: scale(1.05); }
-            100% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 0.5; transform: scale(0.95); }
         }
 
         .sobre-wrapper {
@@ -42,16 +45,16 @@
         .imagen-sobre {
             display: block;
             width: 600px;
-            max-width: 90vw;
-            border-radius: 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            max-width: 85vw;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             transition: all 0.8s ease-in-out;
         }
 
         .abriendo .imagen-sobre {
-            transform: scale(1.5);
+            transform: scale(1.6);
             opacity: 0;
-            filter: blur(15px);
+            filter: blur(20px);
         }
 
         .luz {
@@ -72,36 +75,35 @@
         }
 
         @keyframes destello {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; box-shadow: 0 0 20px white; }
-            40% { transform: translate(-50%, -50%) scale(100); opacity: 1; box-shadow: 0 0 150px 80px white; }
-            100% { transform: translate(-50%, -50%) scale(250); opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            40% { transform: translate(-50%, -50%) scale(120); opacity: 1; box-shadow: 0 0 100px 50px white; }
+            100% { transform: translate(-50%, -50%) scale(300); opacity: 0; }
         }
 
         .mariposa {
             position: absolute;
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23f7c1d1" d="M10,30 Q30,10 50,30 Q70,10 90,30 Q100,50 80,70 Q50,90 20,70 Q0,50 10,30 Z M50,30 V70"/></svg>');
             background-size: contain;
             background-repeat: no-repeat;
             pointer-events: none;
             z-index: 15;
-            opacity: 0;
         }
 
         @keyframes volar {
             0% { transform: translate(-50%, -50%) scale(0.2) rotate(0deg); opacity: 0; }
             20% { opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(1.8) rotate(var(--r)); opacity: 0; }
+            100% { transform: translate(var(--x), var(--y)) scale(2.3) rotate(var(--r)); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="instruccion" id="textoGuia">✨ Toca el sobre para abrir ✨</div>
+    <div class="instruccion" id="textoGuia">✨ TOCA PARA ABRIR ✨</div>
 
     <div class="sobre-wrapper" id="botonSobre">
-        <img src="sobre.png" alt="Haz clic para abrir" class="imagen-sobre">
+        <img src="sobre.png" alt="Abrir invitación" class="imagen-sobre">
         <div class="luz" id="efecto-luz"></div>
     </div>
 
@@ -109,40 +111,9 @@
         const boton = document.getElementById('botonSobre');
         const luz = document.getElementById('efecto-luz');
         const texto = document.getElementById('textoGuia');
+        
+        // NUEVO ENLACE DE DRIVE ACTUALIZADO
         const pdfLink = "https://drive.google.com/file/d/1sWA4ks4dYg3upvneGR3lwRjUnNwGB23s/view?usp=sharing";
 
         boton.addEventListener('click', () => {
-            boton.classList.add('abriendo');
-            luz.classList.add('animar-luz');
-            texto.style.display = 'none'; // Desaparece el texto al abrir
-
-            for (let i = 0; i < 20; i++) {
-                setTimeout(crearMariposa, i * 40);
-            }
-
-            setTimeout(() => {
-                window.location.href = pdfLink;
-            }, 1600);
-        });
-
-        function crearMariposa() {
-            const m = document.createElement('div');
-            m.className = 'mariposa';
-            const angulo = Math.random() * Math.PI * 2;
-            const distancia = 400 + Math.random() * 500;
-            const x = Math.cos(angulo) * distancia + "px";
-            const y = Math.sin(angulo) * distancia + "px";
-            const r = (Math.random() * 1000) + "deg";
-
-            m.style.setProperty('--x', x);
-            m.style.setProperty('--y', y);
-            m.style.setProperty('--r', r);
-            m.style.left = "50%";
-            m.style.top = "50%";
-            m.style.animation = "volar 2.5s ease-out forwards";
-            document.body.appendChild(m);
-            setTimeout(() => m.remove(), 2600);
-        }
-    </script>
-</body>
-</html>
+            
