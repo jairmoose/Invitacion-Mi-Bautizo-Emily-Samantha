@@ -29,7 +29,7 @@
             text-transform: uppercase;
             animation: latido 1.3s infinite;
             text-align: center;
-            transition: opacity 0.5s;
+            transition: opacity 0.3s ease; /* Transición rápida */
         }
 
         @keyframes latido {
@@ -52,14 +52,12 @@
             transition: all 0.8s ease-in-out;
         }
 
-        /* Efecto de apertura */
         .abriendo .imagen-sobre {
             transform: scale(1.8);
             opacity: 0;
             filter: blur(20px);
         }
 
-        /* DESTELLO */
         .luz {
             position: absolute;
             top: 50%;
@@ -82,7 +80,6 @@
             100% { transform: translate(-50%, -50%) scale(400); opacity: 0; }
         }
 
-        /* MARIPOSAS */
         .mariposa {
             position: absolute;
             width: 35px;
@@ -124,17 +121,16 @@
             
             const linkDrive = "https://drive.google.com/file/d/1sWA4ks4dYg3upvneGR3lwRjUnNwGB23s/view?usp=sharing";
 
-            // Iniciar efectos visuales
+            // CORRECCIÓN: Ocultar el texto inmediatamente
+            texto.style.display = 'none'; 
+
             sobre.classList.add('abriendo');
             luz.classList.add('animar-luz');
-            texto.style.opacity = '0';
 
-            // Generar mariposas
             for (let i = 0; i < 25; i++) {
                 setTimeout(crearMariposa, i * 40);
             }
 
-            // Redirigir al finalizar la animación
             setTimeout(() => {
                 window.location.href = linkDrive;
             }, 1600);
@@ -161,5 +157,3 @@
     </script>
 </body>
 </html>
-
-
