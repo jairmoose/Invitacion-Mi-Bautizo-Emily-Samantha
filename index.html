@@ -9,10 +9,28 @@
             margin: 0;
             height: 100vh;
             display: flex;
+            flex-direction: column; /* Para acomodar el texto arriba */
             justify-content: center;
             align-items: center;
             background-color: #fdfaf7;
             overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* TEXTO DE INSTRUCCIÓN */
+        .instruccion {
+            color: #d4a373;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-style: italic;
+            animation: latido 1.5s infinite;
+            text-align: center;
+        }
+
+        @keyframes latido {
+            0% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.5; transform: scale(1); }
         }
 
         .sobre-wrapper {
@@ -30,7 +48,6 @@
             transition: all 0.8s ease-in-out;
         }
 
-        /* EFECTOS DE ANIMACIÓN */
         .abriendo .imagen-sobre {
             transform: scale(1.5);
             opacity: 0;
@@ -81,6 +98,8 @@
 </head>
 <body>
 
+    <div class="instruccion" id="textoGuia">✨ Toca el sobre para abrir ✨</div>
+
     <div class="sobre-wrapper" id="botonSobre">
         <img src="sobre.png" alt="Haz clic para abrir" class="imagen-sobre">
         <div class="luz" id="efecto-luz"></div>
@@ -89,11 +108,13 @@
     <script>
         const boton = document.getElementById('botonSobre');
         const luz = document.getElementById('efecto-luz');
+        const texto = document.getElementById('textoGuia');
         const pdfLink = "https://drive.google.com/file/d/1sWA4ks4dYg3upvneGR3lwRjUnNwGB23s/view?usp=sharing";
 
         boton.addEventListener('click', () => {
             boton.classList.add('abriendo');
             luz.classList.add('animar-luz');
+            texto.style.display = 'none'; // Desaparece el texto al abrir
 
             for (let i = 0; i < 20; i++) {
                 setTimeout(crearMariposa, i * 40);
