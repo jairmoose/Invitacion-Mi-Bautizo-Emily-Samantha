@@ -2,40 +2,33 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Invitación Bautizo - Emily Samantha</title>
     <style>
         body {
             margin: 0;
+            padding: 0;
             height: 100vh;
+            width: 100vw;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             background-color: #fdfaf7;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
-        }
-
-        /* CONTENEDOR TOTAL: Todo lo que esté adentro será clickeable */
-        .area-interactiva {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            z-index: 100;
-            padding: 20px;
+            cursor: pointer; /* Indica que toda la pantalla es clickeable */
         }
 
         .instruccion {
             color: #b5835a;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
             letter-spacing: 2px;
             text-transform: uppercase;
             animation: latido 1.3s infinite;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-            pointer-events: none; /* El clic pasa a través del texto al contenedor */
+            text-align: center;
         }
 
         @keyframes latido {
@@ -44,22 +37,23 @@
             100% { opacity: 0.5; transform: scale(0.95); }
         }
 
-        .sobre-wrapper {
+        .contenedor-sobre {
             position: relative;
+            width: 85%;
+            max-width: 500px;
         }
 
         .imagen-sobre {
-            display: block;
-            width: 600px;
-            max-width: 85vw;
+            width: 100%;
+            height: auto;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            transition: all 0.8s ease-in-out;
+            transition: all 0.7s ease-in-out;
         }
 
-        /* Animación de apertura */
+        /* Efecto al abrir */
         .abriendo .imagen-sobre {
-            transform: scale(1.6);
+            transform: scale(2);
             opacity: 0;
             filter: blur(20px);
         }
@@ -73,90 +67,53 @@
             background: white;
             border-radius: 50%;
             transform: translate(-50%, -50%) scale(0);
-            pointer-events: none;
         }
 
         .animar-luz {
-            animation: destello 1.5s ease-out forwards;
+            animation: destello 1.2s ease-out forwards;
         }
 
         @keyframes destello {
             0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-            40% { transform: translate(-50%, -50%) scale(120); opacity: 1; box-shadow: 0 0 100px 50px white; }
-            100% { transform: translate(-50%, -50%) scale(300); opacity: 0; }
-        }
-
-        .mariposa {
-            position: absolute;
-            width: 35px;
-            height: 35px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23f7c1d1" d="M10,30 Q30,10 50,30 Q70,10 90,30 Q100,50 80,70 Q50,90 20,70 Q0,50 10,30 Z M50,30 V70"/></svg>');
-            background-size: contain;
-            background-repeat: no-repeat;
-            pointer-events: none;
-        }
-
-        @keyframes volar {
-            0% { transform: translate(-50%, -50%) scale(0.2) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(2.3) rotate(var(--r)); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(150); opacity: 1; box-shadow: 0 0 100px 50px white; }
+            100% { transform: translate(-50%, -50%) scale(400); opacity: 0; }
         }
     </style>
 </head>
-<body>
+<body onclick="abrirInvitacion()">
 
-    <div class="area-interactiva" id="lanzador">
-        <div class="instruccion" id="textoGuia">✨ TOCA PARA ABRIR ✨</div>
+    <div class="instruccion" id="texto">✨ TOCA PARA ABRIR ✨</div>
 
-        <div class="sobre-wrapper">
-            <img src="sobre.png" alt="Abrir invitación" class="imagen-sobre" id="sobreImg">
-            <div class="luz" id="efecto-luz"></div>
-        </div>
+    <div class="contenedor-sobre" id="sobre">
+        <img src="sobre.png" alt="Sobre" class="imagen-sobre">
+        <div class="luz" id="luzEfecto"></div>
     </div>
 
     <script>
-        const lanzador = document.getElementById('lanzador');
-        const sobreImg = document.getElementById('sobreImg');
-        const luz = document.getElementById('efecto-luz');
-        const texto = document.getElementById('textoGuia');
-        
-        const pdfLink = "https://drive.google.com/file/d/1sWA4ks4dYg3upvneGR3lwRjUnNwGB23s/view?usp=sharing";
+        let yaAbierto = false;
 
-        lanzador.addEventListener('click', () => {
-            // Aplicamos los efectos
-            sobreImg.classList.add('abriendo');
+        function abrirInvitacion() {
+            if (yaAbierto) return;
+            yaAbierto = true;
+
+            const sobre = document.getElementById('sobre');
+            const luz = document.getElementById('luzEfecto');
+            const texto = document.getElementById('texto');
+            
+            // EL LINK NUEVO DE DRIVE
+            const linkDrive = "https://drive.google.com/file/d/1sWA4ks4dYg3upvneGR3lwRjUnNwGB23s/view?usp=sharing";
+
+            // Iniciar efectos
+            sobre.classList.add('abriendo');
             luz.classList.add('animar-luz');
             texto.style.opacity = '0';
 
-            // Mariposas
-            for (let i = 0; i < 25; i++) {
-                setTimeout(crearMariposa, i * 40);
-            }
-
-            // Redirección al Drive
+            // Redirigir después de la animación
             setTimeout(() => {
-                window.location.href = pdfLink;
-            }, 1600);
-        });
-
-        function crearMariposa() {
-            const m = document.createElement('div');
-            m.className = 'mariposa';
-            const angulo = Math.random() * Math.PI * 2;
-            const distancia = 380 + Math.random() * 480;
-            const x = Math.cos(angulo) * distancia + "px";
-            const y = Math.sin(angulo) * distancia + "px";
-            const r = (Math.random() * 800) + "deg";
-
-            m.style.setProperty('--x', x);
-            m.style.setProperty('--y', y);
-            m.style.setProperty('--r', r);
-            m.style.left = "50%";
-            m.style.top = "50%";
-            m.style.animation = "volar 3s ease-out forwards";
-            document.body.appendChild(m);
-            setTimeout(() => m.remove(), 3200);
+                window.location.href = linkDrive;
+            }, 1200);
         }
     </script>
 </body>
 </html>
+
